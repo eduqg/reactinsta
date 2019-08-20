@@ -58,7 +58,7 @@ export default class Feed extends Component {
                         </p>
                     </footer>
                 </article>
-                
+
             </section>
         )
     }
