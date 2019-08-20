@@ -1,2 +1,4 @@
 -> yarn create react-app frontinsta
 
+-> yarn add react-router-dom
+para criação de rotas
