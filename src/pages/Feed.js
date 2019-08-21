@@ -28,7 +28,15 @@ export default class Feed extends Component {
         const socket = io('http://localhost:3333');
 
         socket.on('post', newPost => {
-            this.setState({feed: [newPost, ...this.state.feed]});
+            this.setState({ feed: [newPost, ...this.state.feed] });
+        })
+
+        socket.on('like', likedPost => {
+            this.setState({
+                feed: this.state.feed.map(post =>
+                    post.id === likedPost.id ? likedPost : post
+                )
+            });
         })
     }
 
