@@ -1,6 +1,8 @@
--> yarn create react-app frontinsta
+▶ yarn create react-app frontinsta
 
--> yarn add react-router-dom
+▶ yarn add react-router-dom
 para criação de rotas
 
--> yarn add axios
+▶ yarn add axios
+
+▶ yarn add socket.io-client

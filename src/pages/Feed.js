@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import api from '../services/api';
+import io from 'socket.io-client';
 
 import './Feed.css';
 import more from '../assets/more.svg';
@@ -17,9 +18,22 @@ export default class Feed extends Component {
 
     // Quando o componente for montado
     async componentDidMount() {
+        this.registerToSocket();
         const response = await api.get('posts');
 
         this.setState({ feed: response.data });
+    }
+
+    registerToSocket = () => {
+        const socket = io('http://localhost:3333');
+
+        socket.on('post', newPost => {
+            this.setState({feed: [newPost, ...this.state.feed]});
+        })
+    }
+
+    handleLike = id => {
+        api.post(`/posts/${id}/like`);
     }
 
     render() {
@@ -39,11 +53,15 @@ export default class Feed extends Component {
 
                         <footer>
                             <div className="actions" >
-                                <img src={like} alt="like" />
+                                {/* Para funções com parametros devo usar arrow function */}
+                                {/* Sem arrow function, apenas executa função. Não passa a função como referencia. */}
+                                <button type="button" onClick={() => this.handleLike(post.id)}>
+                                    <img src={like} alt="like" />
+                                </button>
                                 <img src={comment} alt="comment" />
                                 <img src={send} alt="send" />
                             </div>
-                            <strong>{post.likes}</strong>
+                            <strong>{post.likes} curtidas</strong>
                             <p>
                                 {post.description}
                                 <span>{post.hashtags}</span>
