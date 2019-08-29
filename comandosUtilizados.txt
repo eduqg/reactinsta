@@ -6,3 +6,18 @@ para criação de rotas
 ▶ yarn add axios
 
 ▶ yarn add socket.io-client
+
+▶ yarn add styled-components
+Ajuda para criar css e associar em classes, divs, names
+
+▶ Site dribble, pinterest
+Para inspirar layouts
+
+▶ Site sketch app source
+Para ajudar em prototipação, layouts prontos
+
+▶ Rocketseat tem videos para criação de layouts
+
+▶ Typescript não é uma linguagem nova, é um conjunto de ferramentas em cima do javascript 
+que adiciona tipagem estática (tipos de variáveis), ajuda na manutenção. Principalmente quando 
+código está grande.

@@ -10,74 +10,74 @@ import send from '../assets/send.svg';
 
 export default class Feed extends Component {
 
-    // Quando necessário armazenar uma informação dentro de um componente devo usar um estado
-    // Quando as alterações necessitem ser refletidas no html, uso o estado
-    state = {
-        feed: [],
-    };
+  // Quando necessário armazenar uma informação dentro de um componente devo usar um estado
+  // Quando as alterações necessitem ser refletidas no html, uso o estado
+  state = {
+    feed: [],
+  };
 
-    // Quando o componente for montado
-    async componentDidMount() {
-        this.registerToSocket();
-        const response = await api.get('posts');
+  // Quando o componente for montado
+  async componentDidMount() {
+    this.registerToSocket();
+    const response = await api.get('posts');
 
-        this.setState({ feed: response.data });
-    }
+    this.setState({ feed: response.data });
+  }
 
-    registerToSocket = () => {
-        const socket = io('http://localhost:3333');
+  registerToSocket = () => {
+    const socket = io('http://localhost:3333');
 
-        socket.on('post', newPost => {
-            this.setState({ feed: [newPost, ...this.state.feed] });
-        })
+    socket.on('post', newPost => {
+      this.setState({ feed: [newPost, ...this.state.feed] });
+    })
 
-        socket.on('like', likedPost => {
-            this.setState({
-                feed: this.state.feed.map(post =>
-                    post.id === likedPost.id ? likedPost : post
-                )
-            });
-        })
-    }
-
-    handleLike = id => {
-        api.post(`/posts/${id}/like`);
-    }
-
-    render() {
-        return (
-            <section id="post-list">
-                {this.state.feed.map(post => (
-                    <article key={post.id}>
-                        <header>
-                            <div className="user-info">
-                                <span>{post.author}</span>
-                                <span className="place">{post.place}</span>
-                            </div>
-
-                            <img src={more} alt="Mais" />
-                        </header>
-                        <img src={`http://localhost:3333/files/${post.image}`} alt="Mais" />
-
-                        <footer>
-                            <div className="actions" >
-                                {/* Para funções com parametros devo usar arrow function */}
-                                {/* Sem arrow function, apenas executa função. Não passa a função como referencia. */}
-                                <button type="button" onClick={() => this.handleLike(post.id)}>
-                                    <img src={like} alt="like" />
-                                </button>
-                                <img src={comment} alt="comment" />
-                                <img src={send} alt="send" />
-                            </div>
-                            <strong>{post.likes} curtidas</strong>
-                            <p>
-                                {post.description}
-                                <span>{post.hashtags}</span>
-                            </p>
-                        </footer>
-                    </article>
-                ))}
-            </section>
+    socket.on('like', likedPost => {
+      this.setState({
+        feed: this.state.feed.map(post =>
+          post.id === likedPost.id ? likedPost : post
         )
-    }
+      });
+    })
+  }
+
+  handleLike = id => {
+    api.post(`/posts/${id}/like`);
+  }
+
+  render() {
+    return (
+      <section id="post-list">
+        {this.state.feed.map(post => (
+          <article key={post.id}>
+            <header>
+              <div className="user-info">
+                <span>{post.author}</span>
+                <span className="place">{post.place}</span>
+              </div>
+
+              <img src={more} alt="Mais" />
+            </header>
+            <img src={`http://localhost:3333/files/${post.image}`} alt="Mais" />
+
+            <footer>
+              <div className="actions" >
+                {/* Para funções com parametros devo usar arrow function */}
+                {/* Sem arrow function, apenas executa função. Não passa a função como referencia. */}
+                <button type="button" onClick={() => this.handleLike(post.id)}>
+                  <img src={like} alt="like" />
+                </button>
+                <img src={comment} alt="comment" />
+                <img src={send} alt="send" />
+              </div>
+              <strong>{post.likes} curtidas</strong>
+              <p>
+                {post.description}
+                <span>{post.hashtags}</span>
+              </p>
+            </footer>
+          </article>
+        ))}
+      </section>
+    )
+  }
 }
